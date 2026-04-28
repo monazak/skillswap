@@ -3,7 +3,7 @@ import { Calendar, Clock, TrendingUp, Sparkles } from 'lucide-react';
 import {Card} from '../../components/ui/Card';
 import {Button} from '../../components/ui/Button';
 import {Badge} from '../../components/ui/Badge';
-import {Avatar} from '../../components/ui/Avatar';
+import  {Avatar} from '../../components/ui/Avatar';
 import UserCard from '../../components/UserCard';
 import { mockUsers, mockSessions } from '../../data/mockData';
 
