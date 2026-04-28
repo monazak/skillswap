@@ -1,4 +1,4 @@
-import { useParams, Link } from 'react-router';
+import { useParams, Link } from 'react-router-dom';
 import { Star, Calendar, MessageCircle } from 'lucide-react';
 import {Avatar} from '../../components/ui/Avatar';
 import {Button} from '../../components/ui/Button';

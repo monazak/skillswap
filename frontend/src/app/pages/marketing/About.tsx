@@ -1,4 +1,4 @@
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import { Target, Eye, Heart } from 'lucide-react';
 import { motion } from 'motion/react';
 import {Button} from '../../components/ui/Button';

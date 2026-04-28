@@ -1,4 +1,4 @@
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import { Calendar, Clock, TrendingUp, Sparkles } from 'lucide-react';
 import {Card} from '../../components/ui/Card';
 import {Button} from '../../components/ui/Button';

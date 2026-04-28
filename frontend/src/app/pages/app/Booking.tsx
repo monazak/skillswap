@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useParams, useNavigate } from 'react-router';
+import { useParams, useNavigate } from 'react-router-dom';
 import { Calendar, Clock, Coins, Check } from 'lucide-react';
 import {Avatar} from '../../components/ui/Avatar';
 import {Button} from '../../components/ui/Button';
