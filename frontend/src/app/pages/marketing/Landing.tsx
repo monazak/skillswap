@@ -1,7 +1,7 @@
 import { Link } from 'react-router';
 import { ArrowRight, Sparkles, Users, Video, Star } from 'lucide-react';
 import { motion } from 'motion/react';
-import Button from '../../components/ui/Button';
+import {Button} from '../../components/ui/Button';
 
 export default function Landing() {
   const features = [

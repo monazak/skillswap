@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { useParams, useNavigate } from 'react-router';
 import { Calendar, Clock, Coins, Check } from 'lucide-react';
-import Avatar from '../../components/ui/Avatar';
-import Button from '../../components/ui/Button';
-import Card from '../../components/ui/Card';
+import {Avatar} from '../../components/ui/Avatar';
+import {Button} from '../../components/ui/Button';
+import {Card} from '../../components/ui/Card';
 import SkillTag from '../../components/ui/SkillTag';
 import { mockUsers } from '../../data/mockData';
 

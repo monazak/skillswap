@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router';
 import { Mic, MicOff, Video, VideoOff, PhoneOff, Monitor, Clock } from 'lucide-react';
-import Button from '../../components/ui/Button';
-import Avatar from '../../components/ui/Avatar';
+import {Button} from '../../components/ui/Button';
+import {Avatar} from '../../components/ui/Avatar';
 import { mockSessions } from '../../data/mockData';
 
 export default function VideoSession() {

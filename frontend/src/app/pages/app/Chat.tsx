@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { Send, Video, Calendar } from 'lucide-react';
-import Avatar from '../../components/ui/Avatar';
-import Button from '../../components/ui/Button';
-import Card from '../../components/ui/Card';
+import {Avatar} from '../../components/ui/Avatar';
+import {Button} from '../../components/ui/Button';
+import {Card} from '../../components/ui/Card';
 import EmptyState from '../../components/EmptyState';
 import { mockChats } from '../../data/mockData';
 

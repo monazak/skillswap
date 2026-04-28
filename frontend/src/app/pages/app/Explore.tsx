@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { Search, SlidersHorizontal } from 'lucide-react';
 import { motion } from 'motion/react';
-import Input from '../../components/ui/Input';
-import Button from '../../components/ui/Button';
+import {Input} from '../../components/ui/Input';
+import {Button} from '../../components/ui/Button';
 import UserCard from '../../components/UserCard';
 import EmptyState from '../../components/EmptyState';
 import LoadingSkeleton from '../../components/LoadingSkeleton';

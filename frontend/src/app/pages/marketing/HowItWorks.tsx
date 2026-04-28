@@ -1,8 +1,8 @@
 import { Link } from 'react-router';
 import { UserPlus, Search, Calendar, Video, Star, Coins, Shield } from 'lucide-react';
 import { motion } from 'motion/react';
-import Button from '../../components/ui/Button';
-import Card from '../../components/ui/Card';
+import {Button} from '../../components/ui/Button';
+import {Card} from '../../components/ui/Card';
 
 export default function HowItWorks() {
   const steps = [

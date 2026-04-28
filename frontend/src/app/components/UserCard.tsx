@@ -1,7 +1,7 @@
 import { Link } from 'react-router';
 import { motion } from 'motion/react';
-import Avatar from './ui/Avatar';
-import Badge from './ui/Badge';
+import {Avatar} from './ui/Avatar';
+import {Badge} from './ui/Badge';
 import SkillTag from './ui/SkillTag';
 
 interface UserCardProps {

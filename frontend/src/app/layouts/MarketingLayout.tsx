@@ -1,5 +1,5 @@
 import { Outlet, Link } from 'react-router';
-import Button from '../components/ui/Button';
+import {Button} from '../components/ui/Button';
 import ThemeToggle from '../components/ui/ThemeToggle';
 
 export default function MarketingLayout() {

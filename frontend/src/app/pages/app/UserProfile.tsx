@@ -1,10 +1,10 @@
 import { useParams, Link } from 'react-router';
 import { Star, Calendar, MessageCircle } from 'lucide-react';
-import Avatar from '../../components/ui/Avatar';
-import Button from '../../components/ui/Button';
-import Card from '../../components/ui/Card';
+import {Avatar} from '../../components/ui/Avatar';
+import {Button} from '../../components/ui/Button';
+import {Card} from '../../components/ui/Card';
 import SkillTag from '../../components/ui/SkillTag';
-import Badge from '../../components/ui/Badge';
+import {Badge} from '../../components/ui/Badge';
 import { mockUsers, currentUser } from '../../data/mockData';
 
 export default function UserProfile() {

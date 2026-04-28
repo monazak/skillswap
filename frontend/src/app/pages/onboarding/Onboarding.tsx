@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
 import { ArrowRight, ArrowLeft, Check } from 'lucide-react';
-import Button from '../../components/ui/Button';
-import Input from '../../components/ui/Input';
+import {Button} from '../../components/ui/Button';
+import {Input} from '../../components/ui/Input';
 import SkillTag from '../../components/ui/SkillTag';
-import Card from '../../components/ui/Card';
+import {Card} from '../../components/ui/Card';
 
 export default function Onboarding() {
   const navigate = useNavigate();

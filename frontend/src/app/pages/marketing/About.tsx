@@ -1,8 +1,8 @@
 import { Link } from 'react-router';
 import { Target, Eye, Heart } from 'lucide-react';
 import { motion } from 'motion/react';
-import Button from '../../components/ui/Button';
-import Card from '../../components/ui/Card';
+import {Button} from '../../components/ui/Button';
+import {Card} from '../../components/ui/Card';
 
 export default function About() {
   return (

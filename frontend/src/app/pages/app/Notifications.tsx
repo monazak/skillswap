@@ -1,6 +1,6 @@
 import { Bell, Sparkles, Calendar, Star, Coins } from 'lucide-react';
 import { motion } from 'motion/react';
-import Button from '../../components/ui/Button';
+import {Button} from '../../components/ui/Button';
 import EmptyState from '../../components/EmptyState';
 import { mockNotifications } from '../../data/mockData';
 

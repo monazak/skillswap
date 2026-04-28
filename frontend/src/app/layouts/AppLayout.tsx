@@ -1,7 +1,7 @@
 import { Outlet, Link, useLocation } from 'react-router';
 import { Home, Compass, MessageCircle, Bell, Settings, Coins } from 'lucide-react';
-import Avatar from '../components/ui/Avatar';
-import Badge from '../components/ui/Badge';
+import {Avatar} from '../components/ui/Avatar';
+import {Badge} from '../components/ui/Badge';
 import ThemeToggle from '../components/ui/ThemeToggle';
 
 export default function AppLayout() {
