@@ -1,51 +1,94 @@
 import { apiClient } from './client';
-import type { LoginCredentials, SignupData, AuthResponse, ApiResponse } from '../../types';
+import type {
+  LoginCredentials,
+  SignupData,
+  AuthResponse,
+  ApiResponse,
+} from '../../types';
+
+const TOKEN_KEY = 'auth_token';
+const USER_KEY = 'user';
 
 export const authService = {
-  async login(credentials: LoginCredentials): Promise<ApiResponse<AuthResponse>> {
-    const response = await apiClient.post<AuthResponse>('/auth/login', credentials);
+  // 🔐 LOGIN
+  async login(
+    credentials: LoginCredentials
+  ): Promise<ApiResponse<AuthResponse>> {
+    const response = await apiClient.post<AuthResponse>(
+      '/auth/login',
+      credentials
+    );
 
-    if (response.success && response.data?.token) {
-      localStorage.setItem('auth_token', response.data.token);
-      localStorage.setItem('user', JSON.stringify(response.data.user));
+    if (response.success && response.data) {
+      this.setSession(response.data);
     }
 
     return response;
   },
 
-  async signup(data: SignupData): Promise<ApiResponse<AuthResponse>> {
-    const response = await apiClient.post<AuthResponse>('/auth/signup', data);
+  // 🆕 SIGNUP
+  async signup(
+    data: SignupData
+  ): Promise<ApiResponse<AuthResponse>> {
+    const response = await apiClient.post<AuthResponse>(
+      '/auth/signup',
+      data
+    );
 
-    if (response.success && response.data?.token) {
-      localStorage.setItem('auth_token', response.data.token);
-      localStorage.setItem('user', JSON.stringify(response.data.user));
+    if (response.success && response.data) {
+      this.setSession(response.data);
     }
 
     return response;
   },
 
+  // 🚪 LOGOUT (frontend only for now)
   async logout(): Promise<void> {
-    localStorage.removeItem('auth_token');
-    localStorage.removeItem('user');
-    await apiClient.post('/auth/logout');
+    localStorage.removeItem(TOKEN_KEY);
+    localStorage.removeItem(USER_KEY);
+
+    // backend logout doesn't exist yet → safe call (ignore errors)
+    try {
+      await apiClient.post('/auth/logout');
+    } catch {
+      // ignore
+    }
   },
 
+  // 👤 GET CURRENT USER (from localStorage for now)
   async getCurrentUser(): Promise<ApiResponse<AuthResponse['user']>> {
-    return apiClient.get('/auth/me');
-  },
+    const user = this.getStoredUser();
 
-  async refreshToken(): Promise<ApiResponse<{ token: string }>> {
-    const response = await apiClient.post<{ token: string }>('/auth/refresh');
-
-    if (response.success && response.data?.token) {
-      localStorage.setItem('auth_token', response.data.token);
+    if (!user) {
+      return {
+        success: false,
+        error: 'No user found',
+      };
     }
 
-    return response;
+    return {
+      success: true,
+      data: user,
+    };
   },
 
+  // 🔄 REFRESH TOKEN (NOT IMPLEMENTED YET IN BACKEND)
+  async refreshToken(): Promise<ApiResponse<{ token: string }>> {
+    return {
+      success: false,
+      error: 'Refresh token not implemented yet',
+    };
+  },
+
+  // 💾 STORE SESSION
+  setSession(data: AuthResponse) {
+    localStorage.setItem(TOKEN_KEY, data.token);
+    localStorage.setItem(USER_KEY, JSON.stringify(data.user));
+  },
+
+  // 📦 GET STORED USER
   getStoredUser(): AuthResponse['user'] | null {
-    const userStr = localStorage.getItem('user');
+    const userStr = localStorage.getItem(USER_KEY);
     if (!userStr) return null;
 
     try {
@@ -55,7 +98,13 @@ export const authService = {
     }
   },
 
+  // 🔐 CHECK AUTH
   isAuthenticated(): boolean {
-    return !!localStorage.getItem('auth_token');
+    return !!localStorage.getItem(TOKEN_KEY);
+  },
+
+  // 🔑 GET TOKEN
+  getToken(): string | null {
+    return localStorage.getItem(TOKEN_KEY);
   },
 };
