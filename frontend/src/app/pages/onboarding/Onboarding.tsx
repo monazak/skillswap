@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ArrowRight, ArrowLeft, Check } from 'lucide-react';
 import {Button} from '../../components/ui/Button';
-import {Input} from '../../components/ui/Input';
+import {Input} from '../../components/ui/input';
 import SkillTag from '../../components/ui/SkillTag';
 import {Card} from '../../components/ui/Card';
 

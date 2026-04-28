@@ -2,7 +2,7 @@ import { Link, useNavigate } from 'react-router';
 import { useState } from 'react';
 import { motion } from 'motion/react';
 import {Button} from '../../components/ui/Button';
-import {Input} from '../../components/ui/Input';
+import {Input} from '../../components/ui/input';
 import {Card} from '../../components/ui/Card';
 import ThemeToggle from '../../components/ui/ThemeToggle';
 

@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { User, Bell, Lock, CreditCard, LogOut } from 'lucide-react';
 import {Card} from '../../components/ui/Card';
 import {Button} from '../../components/ui/Button';
-import {Input} from '../../components/ui/Input';
+import {Input} from '../../components/ui/input';
 import {Avatar} from '../../components/ui/Avatar';
 import SkillTag from '../../components/ui/SkillTag';
 
