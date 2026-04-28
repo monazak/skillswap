@@ -1,4 +1,4 @@
-import { Outlet, Link } from 'react-router';
+import { Outlet, Link } from 'react-router-dom';
 import {Button} from '../components/ui/Button';
 import ThemeToggle from '../components/ui/ThemeToggle';
 

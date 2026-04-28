@@ -1,4 +1,4 @@
-import { createBrowserRouter } from "react-router";
+import { createBrowserRouter, redirect } from "react-router-dom";
 
 // Marketing pages
 import Landing from "./pages/marketing/Landing";
@@ -26,6 +26,28 @@ import Settings from "./pages/app/Settings";
 import AppLayout from "./layouts/AppLayout";
 import MarketingLayout from "./layouts/MarketingLayout";
 
+// 🔐 AUTH GUARD
+function requireAuth() {
+  const isLoggedIn = !!localStorage.getItem("user");
+
+  if (!isLoggedIn) {
+    throw redirect("/login");
+  }
+
+  return null;
+}
+
+// 🔁 REDIRECT IF ALREADY LOGGED IN
+function redirectIfLoggedIn() {
+  const isLoggedIn = !!localStorage.getItem("user");
+
+  if (isLoggedIn) {
+    throw redirect("/app");
+  }
+
+  return null;
+}
+
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -36,20 +58,26 @@ export const router = createBrowserRouter([
       { path: "how-it-works", Component: HowItWorks },
     ],
   },
+
   {
     path: "/login",
     Component: Login,
+    loader: redirectIfLoggedIn,
   },
   {
     path: "/signup",
     Component: Signup,
+    loader: redirectIfLoggedIn,
   },
+
   {
     path: "/onboarding",
     Component: Onboarding,
   },
+
   {
     path: "/app",
+    loader: requireAuth,
     Component: AppLayout,
     children: [
       { index: true, Component: Dashboard },
