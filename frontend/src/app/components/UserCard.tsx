@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Outlet, Link } from 'react-router';
 import { motion } from 'motion/react';
 import  {Avatar} from './ui/Avatar';
 import {Badge} from './ui/Badge';

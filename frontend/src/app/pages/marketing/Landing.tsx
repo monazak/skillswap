@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Outlet, Link } from 'react-router';
 import { ArrowRight, Sparkles, Users, Video, Star } from 'lucide-react';
 import { motion } from 'motion/react';
 import {Button} from '../../components/ui/Button';
