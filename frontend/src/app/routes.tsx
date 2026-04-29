@@ -5,7 +5,7 @@ import { createBrowserRouter } from 'react-router';
 import Landing from "./pages/marketing/Landing";
 import About from "./pages/marketing/About";
 import HowItWorks from "./pages/marketing/HowItWorks";
-
+import ProtectedRoute from "./components/ProtectedRoute";
 // Auth pages
 import Login from "./pages/auth/Login";
 import Signup from "./pages/auth/Signup";
@@ -50,18 +50,23 @@ export const router = createBrowserRouter([
     Component: Onboarding,
   },
   {
-    path: "/app",
-    Component: AppLayout,
-    children: [
-      { index: true, Component: Dashboard },
-      { path: "explore", Component: Explore },
-      { path: "profile/:userId", Component: UserProfile },
-      { path: "book/:userId", Component: Booking },
-      { path: "chat", Component: Chat },
-      { path: "chat/:chatId", Component: Chat },
-      { path: "session/:sessionId", Component: VideoSession },
-      { path: "notifications", Component: Notifications },
-      { path: "settings", Component: Settings },
-    ],
-  },
+  path: "/app",
+  element: <ProtectedRoute />,
+  children: [
+    {
+      element: <AppLayout />,
+      children: [
+        { index: true, Component: Dashboard },
+        { path: "explore", Component: Explore },
+        { path: "profile/:userId", Component: UserProfile },
+        { path: "book/:userId", Component: Booking },
+        { path: "chat", Component: Chat },
+        { path: "chat/:chatId", Component: Chat },
+        { path: "session/:sessionId", Component: VideoSession },
+        { path: "notifications", Component: Notifications },
+        { path: "settings", Component: Settings },
+      ],
+    },
+  ],
+},
 ]);

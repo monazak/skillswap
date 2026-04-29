@@ -1,5 +1,5 @@
-/// <reference types="vite/client" />
 declare module '*.css';
+/// <reference types="vite/client" />
 interface ImportMetaEnv {
   readonly VITE_API_BASE_URL: string;
   // add other variables here...
