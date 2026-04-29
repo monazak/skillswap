@@ -4,7 +4,7 @@ import * as React from "react";
 import * as AvatarPrimitive from "@radix-ui/react-avatar";
 import { cn } from "./utils";
 
-type AvatarSize = "sm" | "md" | "lg";
+type AvatarSize = "sm" | "md" | "lg" | "xl";
 
 type AvatarProps = React.ComponentProps<typeof AvatarPrimitive.Root> & {
   src?: string;
@@ -17,6 +17,7 @@ const sizeClasses: Record<AvatarSize, string> = {
   sm: "size-8",
   md: "size-10",
   lg: "size-12",
+  xl: "size-16",
 };
 
 function getInitials(name?: string) {
