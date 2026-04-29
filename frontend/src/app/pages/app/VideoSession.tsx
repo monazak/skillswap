@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router';
 import { Mic, MicOff, Video, VideoOff, PhoneOff, Monitor, Clock } from 'lucide-react';
 import {Button} from '../../components/ui/Button';
 import {Avatar} from '../../components/ui/Avatar';
