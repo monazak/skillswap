@@ -1,9 +1,9 @@
 import type { ApiResponse } from '../../types';
 
 // API Configuration
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000/api';
+const API_BASE_URL =
+  import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000/api';
 const API_TIMEOUT = 30000; // 30 seconds
-
 class ApiClient {
   private baseURL: string;
   private timeout: number;
@@ -24,13 +24,20 @@ class ApiClient {
     const url = `${this.baseURL}${endpoint}`;
     const token = this.getAuthToken();
 
-    const headers: HeadersInit = {
-      'Content-Type': 'application/json',
-      ...options.headers,
-    };
+    // ✅ FIXED: use Headers API instead of plain object
+    const headers = new Headers();
+
+    headers.set('Content-Type', 'application/json');
+
+    if (options.headers) {
+      const extraHeaders = options.headers as Record<string, string>;
+      Object.entries(extraHeaders).forEach(([key, value]) => {
+        headers.set(key, value);
+      });
+    }
 
     if (token) {
-      headers['Authorization'] = `Bearer ${token}`;
+      headers.set('Authorization', `Bearer ${token}`);
     }
 
     const controller = new AbortController();
@@ -46,11 +53,17 @@ class ApiClient {
       clearTimeout(timeoutId);
 
       if (!response.ok) {
-        const error = await response.json().catch(() => ({ message: 'An error occurred' }));
-        throw new Error(error.message || `HTTP ${response.status}: ${response.statusText}`);
+        const error = await response
+          .json()
+          .catch(() => ({ message: 'An error occurred' }));
+
+        throw new Error(
+          error.message || `HTTP ${response.status}: ${response.statusText}`
+        );
       }
 
       const data = await response.json();
+
       return {
         success: true,
         data,
@@ -65,6 +78,7 @@ class ApiClient {
             error: 'Request timeout',
           };
         }
+
         return {
           success: false,
           error: error.message,
