@@ -10,6 +10,7 @@ export interface User {
   rating: number;
   completedSessions: number;
   matchPercentage?: number;
+  credits?: number;
   createdAt?: string;
   updatedAt?: string;
 }

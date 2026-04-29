@@ -1,3 +1,5 @@
+import type { User } from '../types';
+
 // Current logged-in user
 export const currentUser = {
   id: 'me',
@@ -12,7 +14,7 @@ export const currentUser = {
   credits: 12,
 };
 
-export const mockUsers = [
+export const mockUsers : User[] = [
   {
     id: '1',
     name: 'Alex Chen',
