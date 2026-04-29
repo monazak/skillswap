@@ -1,9 +1,10 @@
 import type { ApiResponse } from '../../types';
 
-// API Configuration
 const API_BASE_URL =
   import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000/api';
-const API_TIMEOUT = 30000; // 30 seconds
+
+const API_TIMEOUT = 30000;
+
 class ApiClient {
   private baseURL: string;
   private timeout: number;
@@ -24,20 +25,19 @@ class ApiClient {
     const url = `${this.baseURL}${endpoint}`;
     const token = this.getAuthToken();
 
-    // ✅ FIXED: use Headers API instead of plain object
     const headers = new Headers();
-
     headers.set('Content-Type', 'application/json');
-
-    if (options.headers) {
-      const extraHeaders = options.headers as Record<string, string>;
-      Object.entries(extraHeaders).forEach(([key, value]) => {
-        headers.set(key, value);
-      });
-    }
 
     if (token) {
       headers.set('Authorization', `Bearer ${token}`);
+    }
+
+    if (options.headers) {
+      Object.entries(options.headers as Record<string, string>).forEach(
+        ([key, value]) => {
+          headers.set(key, value);
+        }
+      );
     }
 
     const controller = new AbortController();
@@ -52,21 +52,22 @@ class ApiClient {
 
       clearTimeout(timeoutId);
 
-      if (!response.ok) {
-        const error = await response
-          .json()
-          .catch(() => ({ message: 'An error occurred' }));
+      const rawData = await response.json().catch(() => null);
 
-        throw new Error(
-          error.message || `HTTP ${response.status}: ${response.statusText}`
-        );
+      // ❌ HTTP error handling
+      if (!response.ok) {
+        return {
+          success: false,
+          error:
+            rawData?.message ||
+            `HTTP ${response.status}: ${response.statusText}`,
+        };
       }
 
-      const data = await response.json();
-
+      // ✅ Normalize response
       return {
         success: true,
-        data,
+        data: rawData as T,
       };
     } catch (error) {
       clearTimeout(timeoutId);
@@ -87,7 +88,7 @@ class ApiClient {
 
       return {
         success: false,
-        error: 'An unexpected error occurred',
+        error: 'Unexpected error',
       };
     }
   }

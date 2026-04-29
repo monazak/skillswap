@@ -9,45 +9,79 @@ import type {
 const TOKEN_KEY = 'auth_token';
 const USER_KEY = 'user';
 
+type BackendAuthWrapper = {
+  success?: boolean;
+  data?: {
+    success?: boolean;
+    data?: AuthResponse;
+    user?: AuthResponse['user'];
+    token?: string;
+  } | AuthResponse;
+};
+
 export const authService = {
   // 🔐 LOGIN
-  async login(
-    credentials: LoginCredentials
-  ): Promise<ApiResponse<AuthResponse>> {
-    const response = await apiClient.post<AuthResponse>(
+  async login(credentials: LoginCredentials): Promise<ApiResponse<AuthResponse>> {
+    const response = await apiClient.post<BackendAuthWrapper>(
       '/auth/login',
       credentials
     );
 
-    if (response.success && response.data) {
-      this.setSession(response.data);
+    console.log("🔐 RAW LOGIN RESPONSE:", response);
+
+    // ✅ SAFE UNWRAP (handles all backend shapes)
+    const raw: any = response.data;
+
+    const payload: AuthResponse =
+      raw?.data?.data ??   // double wrapped
+      raw?.data ??         // single wrapped
+      raw ??               // direct
+      {};
+
+    console.log("📦 FINAL LOGIN PAYLOAD:", payload);
+
+    if (payload?.token && payload?.user) {
+      this.setSession(payload);
     }
 
-    return response;
+    return {
+      success: true,
+      data: payload,
+    };
   },
 
   // 🆕 SIGNUP
-  async signup(
-    data: SignupData
-  ): Promise<ApiResponse<AuthResponse>> {
-    const response = await apiClient.post<AuthResponse>(
+  async signup(data: SignupData): Promise<ApiResponse<AuthResponse>> {
+    const response = await apiClient.post<BackendAuthWrapper>(
       '/auth/signup',
       data
     );
 
-    if (response.success && response.data) {
-      this.setSession(response.data);
+    console.log("🆕 RAW SIGNUP RESPONSE:", response);
+
+    const raw: any = response.data;
+
+    const payload: AuthResponse =
+      raw?.data?.data ??
+      raw?.data ??
+      raw ??
+      {};
+
+    if (payload?.token && payload?.user) {
+      this.setSession(payload);
     }
 
-    return response;
+    return {
+      success: true,
+      data: payload,
+    };
   },
 
-  // 🚪 LOGOUT (frontend only for now)
+  // 🚪 LOGOUT
   async logout(): Promise<void> {
     localStorage.removeItem(TOKEN_KEY);
     localStorage.removeItem(USER_KEY);
 
-    // backend logout doesn't exist yet → safe call (ignore errors)
     try {
       await apiClient.post('/auth/logout');
     } catch {
@@ -55,7 +89,7 @@ export const authService = {
     }
   },
 
-  // 👤 GET CURRENT USER (from localStorage for now)
+  // 👤 CURRENT USER
   async getCurrentUser(): Promise<ApiResponse<AuthResponse['user']>> {
     const user = this.getStoredUser();
 
@@ -72,7 +106,7 @@ export const authService = {
     };
   },
 
-  // 🔄 REFRESH TOKEN (NOT IMPLEMENTED YET IN BACKEND)
+  // 🔄 REFRESH TOKEN
   async refreshToken(): Promise<ApiResponse<{ token: string }>> {
     return {
       success: false,
@@ -82,11 +116,18 @@ export const authService = {
 
   // 💾 STORE SESSION
   setSession(data: AuthResponse) {
+    if (!data?.token || !data?.user) {
+      console.warn("❌ Invalid session data:", data);
+      return;
+    }
+
     localStorage.setItem(TOKEN_KEY, data.token);
     localStorage.setItem(USER_KEY, JSON.stringify(data.user));
+
+    console.log("✅ SESSION STORED");
   },
 
-  // 📦 GET STORED USER
+  // 📦 USER
   getStoredUser(): AuthResponse['user'] | null {
     const userStr = localStorage.getItem(USER_KEY);
     if (!userStr) return null;
@@ -98,12 +139,12 @@ export const authService = {
     }
   },
 
-  // 🔐 CHECK AUTH
+  // 🔐 AUTH CHECK
   isAuthenticated(): boolean {
     return !!localStorage.getItem(TOKEN_KEY);
   },
 
-  // 🔑 GET TOKEN
+  // 🔑 TOKEN
   getToken(): string | null {
     return localStorage.getItem(TOKEN_KEY);
   },
